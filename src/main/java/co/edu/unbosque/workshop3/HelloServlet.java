@@ -6,10 +6,12 @@ import com.google.gson.Gson;
 
 import java.io.*;
 import java.util.ArrayList;
+import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
 @WebServlet(name = "helloServlet", value = "/hello-servlet")
+
 public class HelloServlet extends HttpServlet {
 
     private Usuarios infoUser;
@@ -17,28 +19,31 @@ public class HelloServlet extends HttpServlet {
     private ArrayList<Usuarios> dataUser = new ArrayList<>();
     private ArrayList<Funcionarios> dataFuntionary = new ArrayList<>();
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("application/json");
         infoUser = new Usuarios("SFlorezS", "123456@", "Propietario", "sflorezs05@gmail.com");
         dataUser.add(infoUser);
         infoFunctionary = new Funcionarios("Deivid05", "1234567@", "Funcionario", "deivid05@hotmail.com");
         dataFuntionary.add(infoFunctionary);
 
-        //PrintWriter out = response.getWriter();
-        //out.println(new Gson().toJson(dataUser));
-        response.sendRedirect(request.getContextPath() + "/propietario.html");
-        for (int i = 0; i < dataUser.size(); i++){
-            if (dataUser.get(i).equals(request.getParameter("userName"))){
-                String correo = dataUser.get(3).toString();
-                response.sendRedirect(request.getContextPath() + "/propietario.html");
+        PrintWriter out = response.getWriter();
+        out.println(new Gson().toJson(dataUser));
+        try{
+            if (infoUser.getUser().equals(request.getParameter("userName")) && infoUser.getPassword().equals(request.getParameter("password"))){
+                String correo = infoUser.getCorreo();
                 Cookie cookieCorreo = new Cookie("Correo", correo);
-                Cookie cookieRol = new Cookie("Rol", "Propietario");
+                String rol = infoUser.getTypeUser();
+                Cookie cookieRol = new Cookie("Rol", rol);
                 response.addCookie(cookieCorreo);
-            }else if(dataUser.get(i).equals("Deivid05")){
-                response.sendRedirect(request.getContextPath() + "/funcionario.html");
+                response.addCookie(cookieRol);
+                response.sendRedirect(request.getContextPath() + "/propietario.html");
+            }else if(infoFunctionary.getUser().equals(request.getParameter("userName")) && infoFunctionary.getPassword().equals(request.getParameter("password"))){
                 Cookie cookieCorreo = new Cookie("Correo", "deivid05@hotmail.com");
                 response.addCookie(cookieCorreo);
+                response.sendRedirect(request.getContextPath() + "/funcionario.html");
             }
+        }catch(Exception e){
+            e.printStackTrace();
         }
     }
 }
