@@ -13,6 +13,7 @@ import javax.servlet.annotation.*;
 public class imagen extends HttpServlet {
 
     private String UPLOAD_DIRECTORY = "charged_img";
+    private String fileName = "";
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html");
@@ -23,14 +24,23 @@ public class imagen extends HttpServlet {
             uploadDir.mkdir();
         }
 
-        String  fileName = "";
         try {
             for (Part part : request.getParts()) {
                 fileName = part.getSubmittedFileName();
                 part.write(uploadPath + File.separator + fileName);
             }
+            System.out.println(fileName);
+            response.sendRedirect("propietario.html");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }

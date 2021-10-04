@@ -10,24 +10,23 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
-@WebServlet(name = "helloServlet", value = "/hello-servlet")
+@WebServlet(name = "hello-servlet", value = "/hello-servlet")
 
 public class HelloServlet extends HttpServlet {
 
     private Usuarios infoUser;
     private Funcionarios infoFunctionary;
+    private Usuarios infoUserJSon;
     private ArrayList<Usuarios> dataUser = new ArrayList<>();
     private ArrayList<Funcionarios> dataFuntionary = new ArrayList<>();
+    private imagen img = new imagen();
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        response.setContentType("application/json");
+        response.setContentType("text/html");
         infoUser = new Usuarios("SFlorezS", "123456@", "Propietario", "sflorezs05@gmail.com");
-        dataUser.add(infoUser);
         infoFunctionary = new Funcionarios("Deivid05", "1234567@", "Funcionario", "deivid05@hotmail.com");
         dataFuntionary.add(infoFunctionary);
-
-        PrintWriter out = response.getWriter();
-        out.println(new Gson().toJson(dataUser));
+        
         try{
             if (infoUser.getUser().equals(request.getParameter("userName")) && infoUser.getPassword().equals(request.getParameter("password"))){
                 String correo = infoUser.getCorreo();
@@ -38,8 +37,16 @@ public class HelloServlet extends HttpServlet {
                 response.addCookie(cookieRol);
                 response.sendRedirect(request.getContextPath() + "/propietario.html");
             }else if(infoFunctionary.getUser().equals(request.getParameter("userName")) && infoFunctionary.getPassword().equals(request.getParameter("password"))){
-                Cookie cookieCorreo = new Cookie("Correo", "deivid05@hotmail.com");
-                response.addCookie(cookieCorreo);
+                String correoF = infoFunctionary.getCorreo();
+                Cookie cookieCorreoF = new Cookie("Correo", correoF);
+                String rolF = infoFunctionary.getTypeUser();
+                Cookie cookieRolF = new Cookie("Rol", rolF);
+                response.addCookie(cookieCorreoF);
+                response.addCookie(cookieRolF);
+                infoUserJSon = new Usuarios("SFlorezS", "123456@", "Propietario", "sflorezs05@gmail.com", img.getFileName());
+                dataUser.add(infoUserJSon);
+                PrintWriter out = response.getWriter();
+                out.println(new Gson().toJson(dataUser));
                 response.sendRedirect(request.getContextPath() + "/funcionario.html");
             }
         }catch(Exception e){
