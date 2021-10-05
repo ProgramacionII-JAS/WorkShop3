@@ -16,19 +16,16 @@ public class HelloServlet extends HttpServlet {
 
     private Usuarios infoUser;
     private Funcionarios infoFunctionary;
-    private Usuarios infoUserJSon;
     private ArrayList<Usuarios> dataUser = new ArrayList<>();
     private ArrayList<Funcionarios> dataFuntionary = new ArrayList<>();
     private imagen img = new imagen();
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html");
-        infoUser = new Usuarios("SFlorezS", "123456@", "Propietario", "sflorezs05@gmail.com", img.getFileName());
+        infoUser = new Usuarios("SFlorezS", "123456@", "Propietario", "sflorezs05@gmail.com");
         dataUser.add(infoUser);
         infoFunctionary = new Funcionarios("Deivid05", "1234567@", "Funcionario", "deivid05@hotmail.com");
         dataFuntionary.add(infoFunctionary);
-        PrintWriter out = response.getWriter();
-        out.println(new Gson().toJson(dataUser));
 
         try{
             if (infoUser.getUser().equals(request.getParameter("userName")) && infoUser.getPassword().equals(request.getParameter("password"))){
@@ -48,6 +45,7 @@ public class HelloServlet extends HttpServlet {
                 response.addCookie(cookieRolF);
                 response.sendRedirect(request.getContextPath() + "/funcionario.html");
             }
+
         }catch(Exception e){
             e.printStackTrace();
         }

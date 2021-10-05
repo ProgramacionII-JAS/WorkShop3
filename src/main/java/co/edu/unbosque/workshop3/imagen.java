@@ -1,6 +1,10 @@
 package co.edu.unbosque.workshop3;
 
+import co.edu.unbosque.workshop3.dtos.Usuarios;
+import com.google.gson.Gson;
+
 import java.io.*;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -14,6 +18,17 @@ public class imagen extends HttpServlet {
 
     private String UPLOAD_DIRECTORY = "charged_img";
     private String fileName = "";
+    private Usuarios users = new Usuarios("SFlorezS", "123456@", "Propietario", "sflorezs05@gmail.com", "");
+
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json");
+        ArrayList<Usuarios> dataUser = new ArrayList<>();
+        users = new Usuarios("SFlorezS", "123456@", "Propietario", "sflorezs05@gmail.com", fileName);
+        dataUser.add(users);
+
+        PrintWriter out = response.getWriter();
+        out.println(new Gson().toJson(dataUser));
+    }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html");
@@ -30,17 +45,9 @@ public class imagen extends HttpServlet {
                 part.write(uploadPath + File.separator + fileName);
             }
             System.out.println(fileName);
-            response.sendRedirect("propietario.html");
+            response.sendRedirect(request.getContextPath() + "/propietario.html");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
     }
 }
