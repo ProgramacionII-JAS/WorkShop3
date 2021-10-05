@@ -23,10 +23,13 @@ public class HelloServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html");
-        infoUser = new Usuarios("SFlorezS", "123456@", "Propietario", "sflorezs05@gmail.com");
+        infoUser = new Usuarios("SFlorezS", "123456@", "Propietario", "sflorezs05@gmail.com", img.getFileName());
+        dataUser.add(infoUser);
         infoFunctionary = new Funcionarios("Deivid05", "1234567@", "Funcionario", "deivid05@hotmail.com");
         dataFuntionary.add(infoFunctionary);
-        
+        PrintWriter out = response.getWriter();
+        out.println(new Gson().toJson(dataUser));
+
         try{
             if (infoUser.getUser().equals(request.getParameter("userName")) && infoUser.getPassword().equals(request.getParameter("password"))){
                 String correo = infoUser.getCorreo();
@@ -43,10 +46,6 @@ public class HelloServlet extends HttpServlet {
                 Cookie cookieRolF = new Cookie("Rol", rolF);
                 response.addCookie(cookieCorreoF);
                 response.addCookie(cookieRolF);
-                infoUserJSon = new Usuarios("SFlorezS", "123456@", "Propietario", "sflorezs05@gmail.com", img.getFileName());
-                dataUser.add(infoUserJSon);
-                PrintWriter out = response.getWriter();
-                out.println(new Gson().toJson(dataUser));
                 response.sendRedirect(request.getContextPath() + "/funcionario.html");
             }
         }catch(Exception e){
