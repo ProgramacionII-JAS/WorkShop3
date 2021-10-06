@@ -2,41 +2,43 @@ package co.edu.unbosque.workshop3.dtos;
 
 public class Usuarios {
 
-    private String user;
-    private String password;
+    private String username;
+    private String dateR;
+    private String petName;
+    private String passWord;
     private String typeUser;
     private String correo;
     private String urlImg;
 
-    public Usuarios(String user, String password, String typeUser, String correo, String urlImg) {
-        this.user = user;
-        this.password = password;
-        this.typeUser = typeUser;
+    public Usuarios(String dateR, String petName, String correo, String urlImg) {
+        this.dateR = dateR;
+        this.petName = petName;
         this.correo = correo;
         this.urlImg = urlImg;
     }
 
-    public Usuarios(String user, String password, String typeUser, String correo) {
-        this.user = user;
-        this.password = password;
-        this.typeUser = typeUser;
+    public Usuarios(String username, String correo, String password, String typeUser, String urlImg) {
+        this.username = username;
         this.correo = correo;
+        this.passWord = password;
+        this.typeUser = typeUser;
+        this.urlImg = urlImg;
     }
 
-    public String getUser() {
-        return user;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPetName() {
+        return petName;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPetName(String petName) {
+        this.petName = petName;
     }
 
     public String getTypeUser() {
@@ -45,6 +47,22 @@ public class Usuarios {
 
     public void setTypeUser(String typeUser) {
         this.typeUser = typeUser;
+    }
+
+    public String getPassWord() {
+        return passWord;
+    }
+
+    public void setPassWord(String passWord) {
+        this.passWord = passWord;
+    }
+
+    public String getDateR() {
+        return dateR;
+    }
+
+    public void setDateR(String dateR) {
+        this.dateR = dateR;
     }
 
     public String getCorreo() {
