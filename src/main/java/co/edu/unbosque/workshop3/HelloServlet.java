@@ -26,13 +26,13 @@ public class HelloServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html");
-        infoUser = new Usuarios("SflorezS05","sflorezs05@gmail.com", "123456@", "Propietario", "");
+        infoUser = new Usuarios("SFlorezS05","sflorezs05@gmail.com", "123456@", "Propietario", "");
         dataUser.add(infoUser);
         infoFunctionary = new Funcionarios("Deivid05", "1234567@", "Funcionario", "deivid05@hotmail.com");
         dataFuntionary.add(infoFunctionary);
 
         try{
-            if (infoUser.getCorreo().equals(request.getParameter("userName")) && infoUser.getPassWord().equals(request.getParameter("password"))){
+            if (infoUser.getUsername().equals(request.getParameter("userName")) && infoUser.getPassWord().equals(request.getParameter("password"))){
                 String correo = infoUser.getCorreo();
                 cookieCorreo = new Cookie("Correo_usuario", correo);
                 String rol = infoUser.getTypeUser();

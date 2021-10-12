@@ -2,11 +2,13 @@ package co.edu.unbosque.workshop3;
 
 import co.edu.unbosque.workshop3.dtos.Usuarios;
 import com.google.gson.Gson;
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -24,13 +26,12 @@ public class imagen extends HttpServlet {
     private Usuarios infoUser = new Usuarios("SflorezS05","sflorezs05@gmail.com", "123456@", "Propietario", "");
     private Usuarios users = new Usuarios("", petName, "sflorezs05@gmail.com", "");
 
+    private ArrayList<Usuarios> dataUser = new ArrayList<>();
+    private Date date;
+    private String dateS = "";
+
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
-        ArrayList<Usuarios> dataUser = new ArrayList<>();
-        Date date = new Date();
-        String dateS = String.valueOf(date);
-        users = new Usuarios(dateS, petName, "sflorezs05@gmail.com", fileName);
-        dataUser.add(users);
         PrintWriter out = response.getWriter();
         out.println(new Gson().toJson(dataUser));
     }
@@ -45,18 +46,23 @@ public class imagen extends HttpServlet {
             uploadDir.mkdir();
         }
         try{
+            petName = request.getParameter("PetName");
 
-                    if (infoUser.getUrlImg().equals("")) {
-                        petName = request.getParameter("PetName");
-                        users.setPetName(petName);
-                        for (Part part : request.getParts()) {
-                            fileName = part.getSubmittedFileName();
-                            part.write(uploadPath + File.separator + fileName);
-                        }
-                        infoUser.setUrlImg(fileName);
-                        response.sendRedirect(request.getContextPath() + "/propietario.html");
-                    }
+            users.setPetName(petName);
 
+            for (Part part : request.getParts()) {
+                fileName = part.getSubmittedFileName();
+                Random rnd = new Random();
+                int newName = rnd.nextInt(100000);
+                fileName = String.valueOf(newName)+ "." + FilenameUtils.getExtension(fileName);
+                part.write(uploadPath + File.separator + fileName);
+            }
+            infoUser.setUrlImg(fileName);
+            date = new Date();
+            dateS = String.valueOf(date);
+            users = new Usuarios(dateS, petName, "sflorezs05@gmail.com", fileName);
+            dataUser.add(users);
+            response.sendRedirect(request.getContextPath() + "/propietario.html");
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
