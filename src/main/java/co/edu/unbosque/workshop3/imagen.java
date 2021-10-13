@@ -48,7 +48,7 @@ public class imagen extends HttpServlet {
         try{
             petName = request.getParameter("PetName");
 
-            users.setPetName(petName);
+            infoUser.setPetName(petName);
 
             for (Part part : request.getParts()) {
                 fileName = part.getSubmittedFileName();

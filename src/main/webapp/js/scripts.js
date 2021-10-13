@@ -7,7 +7,6 @@ document.getElementById("btnMostrar").onclick = function (){
             .then(data => {
                     rowId += 1;
                     data.map((element) =>{
-                            console.log(data)
                             rowId += 1;
                             table = document.getElementById("body-table")
                             tr = document.createElement("tr");
