@@ -7,8 +7,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Workshop3" />
-        <module name="WorkShop3" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="WorkShop3" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

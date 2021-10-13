@@ -18,5 +18,29 @@
       <input type="submit" id="btn-submit" value="Log In">
     </form>
   </section>
+  <script>
+    var rutaIndex = ""+window.location;
+    console.log(rutaIndex);
+    var i = 0;
+    let ir;
+    var existCookie = document.cookie.split(";");
+    if(existCookie[1] === " Rol_usuario=Funcionario"){
+      ir = confirm("Seras redireccionado a la pagina de Funcionario. ¿Deseas Continuar?");
+      if (ir == true){
+        console.log(window.location.pathname);
+        var path = window.location.pathname.split("/");
+        var redirect = window.location.protocol + "//" + window.location.host + "/" + path[1] + "/" + "funcionario.html"
+        window.location.href = redirect;
+      }
+    }else if(existCookie[1] === " Rol_usuario=Propietario"){
+      ir = confirm("Seras redireccionado a la pagina de Propietario. ¿Deseas Continuar?");
+      if (ir == true){
+        console.log(window.location.pathname);
+        var path = window.location.pathname.split("/");
+        var redirect = window.location.protocol + "//" + window.location.host + "/" + path[1] + "/" + "propietario.html"
+        window.location.href = redirect;
+      }
+    }
+  </script>
   </body>
 </html>
